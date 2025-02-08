@@ -1,0 +1,17 @@
+# https://github.com/essamatefelsherif/roadmap.sh.github-activity
+
+# logs
+log*
+*.log*
+**/log*
+
+# node modules
+node_modules
+package-lock.json
+
+# other folders
+tmp/
+
+# config files
+.coveralls.yml
+.auth-token

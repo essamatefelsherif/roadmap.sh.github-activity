@@ -1,0 +1,5 @@
+# other folders
+docs
+tmp
+.lcovrc
+.coveralls.yml
