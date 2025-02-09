@@ -476,8 +476,8 @@ Try '${CMD} --list' for more information.
 	cmdData.cmd_skip = false;
 	suites.get(suiteDesc).push(cmdData);
 
-	// TEST SUITE #4 - Test normal operation
-	suiteDesc = 'Test normal operation';
+	// TEST SUITE #4 - Test fetching user
+	suiteDesc = 'Test fetching user';
 	suites.set(suiteDesc, []);
 
 	// TEST ### - gh-act github
@@ -593,6 +593,105 @@ Try '${CMD} --help' for more information.
 
 	cmdData.cmd_skip = false;
 	suites.get(suiteDesc).push(cmdData);
+
+
+
+	// TEST SUITE #5 - Test fetching user activities
+	suiteDesc = 'Test fetching user activities';
+	suites.set(suiteDesc, []);
+
+	// TEST ### - gh-act github
+	cmdData = {run_before: null, run_after: null};
+
+	cmdData.cmd_act = `node ${cmdPath} github`;
+	cmdData.cmd_exp = '';
+	cmdData.cmd_inp = '';
+
+	cmdData.cmd_out = '[object Array]';
+	cmdData.cmd_err = '';
+
+	cmdData.cmd_opt = {encoding: 'UTF-8', env: {GH_ACT_TEST: 'fetchAct'}};
+	cmdData.cmd_ext = 0;
+	cmdData.cmd_desc = `${CMD} github`;
+
+	cmdData.run_before = cmdData.run_after = () => {
+		execSync(`node ${path.join(__dirname, '../lib/gh-act.js')} --nocache`);
+	}
+
+	cmdData.cmd_skip = false;
+	suites.get(suiteDesc).push(cmdData);
+
+	// TEST ### - gh-act essamatefelsherif
+	cmdData = {run_before: null, run_after: null};
+
+	cmdData.cmd_act = `node ${cmdPath} essamatefelsherif`;
+	cmdData.cmd_exp = '';
+	cmdData.cmd_inp = '';
+
+	cmdData.cmd_out = '[object Array]';
+	cmdData.cmd_err = '';
+
+	cmdData.cmd_opt = {encoding: 'UTF-8', env: {GH_ACT_TEST: 'fetchAct'}};
+	cmdData.cmd_ext = 0;
+	cmdData.cmd_desc = `${CMD} essamatefelsherif`;
+
+	cmdData.run_before = cmdData.run_after = () => {
+		execSync(`node ${path.join(__dirname, '../lib/gh-act.js')} --nocache`);
+	}
+
+	cmdData.cmd_skip = false;
+	suites.get(suiteDesc).push(cmdData);
+
+
+
+	// TEST ### - gh-act github // read from cache
+	cmdData = {run_before: null, run_after: null};
+
+	cmdData.cmd_act = `node ${cmdPath} github`;
+	cmdData.cmd_exp = '';
+	cmdData.cmd_inp = '';
+
+	cmdData.cmd_out = '[object Array]';
+	cmdData.cmd_err = '';
+
+	cmdData.cmd_opt = {encoding: 'UTF-8', env: {GH_ACT_TEST: 'fetchAct'}};
+	cmdData.cmd_ext = 0;
+	cmdData.cmd_desc = `${CMD} github // read from cache`;
+
+	cmdData.run_before = () => {
+		execSync(`node ${path.join(__dirname, '../lib/gh-act.js')} github`, {encoding: 'UTF-8', env: {GH_ACT_TEST: 'fetchAct'}});
+	}
+	cmdData.run_after = () => {
+		execSync(`node ${path.join(__dirname, '../lib/gh-act.js')} --nocache`);
+	}
+
+	cmdData.cmd_skip = false;
+	suites.get(suiteDesc).push(cmdData);
+
+	// TEST ### - gh-act essamatefelsherif // read from cache
+	cmdData = {run_before: null, run_after: null};
+
+	cmdData.cmd_act = `node ${cmdPath} essamatefelsherif`;
+	cmdData.cmd_exp = '';
+	cmdData.cmd_inp = '';
+
+	cmdData.cmd_out = '[object Array]';
+	cmdData.cmd_err = '';
+
+	cmdData.cmd_opt = {encoding: 'UTF-8', env: {GH_ACT_TEST: 'fetchAct'}};
+	cmdData.cmd_ext = 0;
+	cmdData.cmd_desc = `${CMD} essamatefelsherif // read from cache`;
+
+	cmdData.run_before = () => {
+		execSync(`node ${path.join(__dirname, '../lib/gh-act.js')} essamatefelsherif`, {encoding: 'UTF-8', env: {GH_ACT_TEST: 'fetchAct'}});
+	}
+	cmdData.run_after = () => {
+		execSync(`node ${path.join(__dirname, '../lib/gh-act.js')} --nocache`);
+	}
+
+	cmdData.cmd_skip = false;
+	suites.get(suiteDesc).push(cmdData);
+
 }
 
 /**
