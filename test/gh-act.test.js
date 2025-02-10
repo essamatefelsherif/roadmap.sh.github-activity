@@ -30,7 +30,7 @@ const CMD_SHELL = '';
 /** @const {object} cmdOptions - Options used when running the tests. */
 const cmdOptions = {
 	node    : true,
-	verbose : false,
+	verbose : true,
 };
 
 /** @const {string} cacheDir - Cache directory. */
@@ -38,10 +38,6 @@ const cacheDir = path.join(os.tmpdir(), CMD);
 
 /* Prepare test environment */
 const cmdPath = path.join(__dirname, '..', 'lib/gh-act.js');
-
-const devNull = os.devNull;
-const tmpDir  = os.tmpdir();
-const noOpCmd = 'exit';
 
 let testCount   = 1;
 let passCount   = 0;
@@ -110,6 +106,41 @@ function loadTestData(){
 	suiteDesc = 'Test common options';
 	suites.set(suiteDesc, []);
 
+	// TEST ### - gh-act
+	cmdData = {run_after: null};
+
+	cmdData.cmd_act = `node ${cmdPath}`;
+	cmdData.cmd_exp = '';
+	cmdData.cmd_inp = '';
+
+cmdData.cmd_out = `\
+Usage: ${CMD} [OPTION]... USER
+Use GitHub API to fetch GitHub user activities and display it in the terminal.
+
+  -u  --user         include user information
+  -b  --table        tabular output
+  -j  --json         output JSON data
+  -c  --csv          output comma separated values
+  -v  --verbose      verbose output (default)
+  -d  --debug        output request and response headers
+  -t  --type[=TYPE]  filter user activities by event type
+      --nocache      remove the cache directory and exit
+      --list         list GitHub event types and exit
+      --help         display this help and exit
+      --version      output version information and exit
+
+Writing your GitHub authentication token to the file '.auth-token' located in the
+package root directory is recommended for normal operation and required for testing.
+`;
+cmdData.cmd_err = '';
+
+	cmdData.cmd_opt = {encoding: 'UTF-8', env: {GH_ACT_TEST: 'parse'}};
+	cmdData.cmd_ext = 0;
+	cmdData.cmd_desc = `${CMD}`;
+
+	cmdData.cmd_skip = false;
+	suites.get(suiteDesc).push(cmdData);
+
 	// TEST ### - gh-act --help
 	cmdData = {run_after: null};
 
@@ -126,12 +157,15 @@ Use GitHub API to fetch GitHub user activities and display it in the terminal.
   -j  --json         output JSON data
   -c  --csv          output comma separated values
   -v  --verbose      verbose output (default)
-  -a  --agg          aggregate user activities by event type
+  -d  --debug        output request and response headers
   -t  --type[=TYPE]  filter user activities by event type
       --nocache      remove the cache directory and exit
       --list         list GitHub event types and exit
       --help         display this help and exit
       --version      output version information and exit
+
+Writing your GitHub authentication token to the file '.auth-token' located in the
+package root directory is recommended for normal operation and required for testing.
 `;
 cmdData.cmd_err = '';
 
@@ -215,8 +249,8 @@ cmdData.cmd_err = '';
 	cmdData.cmd_skip = false;
 	suites.get(suiteDesc).push(cmdData);
 
-	// TEST SUITE #2 - Test multi-character options
-	suiteDesc = 'Test multi-character options';
+	// TEST SUITE #2 - Test invalid multi-character options
+	suiteDesc = 'Test invalid multi-character options';
 	suites.set(suiteDesc, []);
 
 	// TEST ### - gh-act --xxx
@@ -317,8 +351,28 @@ Try '${CMD} --list' for more information.
 	cmdData.cmd_skip = false;
 	suites.get(suiteDesc).push(cmdData);
 
-	// TEST SUITE #3 - Test single-character options
-	suiteDesc = 'Test single-character options';
+	// TEST ### - gh-act --user
+	cmdData = {run_after: null};
+
+	cmdData.cmd_act = `node ${cmdPath} --user`;
+	cmdData.cmd_exp = '';
+	cmdData.cmd_inp = '';
+
+cmdData.cmd_out = '';
+cmdData.cmd_err = `\
+${CMD}: no GitHub user given
+Try '${CMD} --help' for more information.
+`;
+
+	cmdData.cmd_opt = {encoding: 'UTF-8', env: {GH_ACT_TEST: 'parse'}};
+	cmdData.cmd_ext = 1;
+	cmdData.cmd_desc = `${CMD} --user`;
+
+	cmdData.cmd_skip = false;
+	suites.get(suiteDesc).push(cmdData);
+
+	// TEST SUITE #3 - Test invalid single-character options
+	suiteDesc = 'Test invalid single-character options';
 	suites.set(suiteDesc, []);
 
 	// TEST ### - gh-act -x
@@ -421,6 +475,26 @@ Try '${CMD} --list' for more information.
 	cmdData.cmd_skip = false;
 	suites.get(suiteDesc).push(cmdData);
 
+	// TEST ### - gh-act -u
+	cmdData = {run_after: null};
+
+	cmdData.cmd_act = `node ${cmdPath} -u`;
+	cmdData.cmd_exp = '';
+	cmdData.cmd_inp = '';
+
+cmdData.cmd_out = '';
+cmdData.cmd_err = `\
+${CMD}: no GitHub user given
+Try '${CMD} --help' for more information.
+`;
+
+	cmdData.cmd_opt = {encoding: 'UTF-8', env: {GH_ACT_TEST: 'parse'}};
+	cmdData.cmd_ext = 1;
+	cmdData.cmd_desc = `${CMD} -u`;
+
+	cmdData.cmd_skip = false;
+	suites.get(suiteDesc).push(cmdData);
+
 	// TEST SUITE #3 - Test valid options
 	suiteDesc = 'Test valid options';
 	suites.set(suiteDesc, []);
@@ -432,7 +506,7 @@ Try '${CMD} --list' for more information.
 	cmdData.cmd_exp = '';
 	cmdData.cmd_inp = '';
 
-	cmdData.cmd_out = `{"user":false,"output":"v","type":"","agg":false,"cache":true,"userAgent":"${CMD}/${CMD_VER}","apiVersion":"2022-11-28"}`;
+	cmdData.cmd_out = `{"user":false,"output":"v","type":"","debug":false,"cache":true,"userAgent":"gh-act/v1.0.0","apiVersion":"2022-11-28","cacheDir":"${cacheDir}","authTokenFile":".auth-token"}`;
 	cmdData.cmd_err = '';
 
 	cmdData.cmd_opt = {encoding: 'UTF-8', env: {GH_ACT_TEST: 'parse'}};
@@ -442,36 +516,36 @@ Try '${CMD} --list' for more information.
 	cmdData.cmd_skip = false;
 	suites.get(suiteDesc).push(cmdData);
 
-	// TEST ### - gh-act -ua user
+	// TEST ### - gh-act -ud user
 	cmdData = {run_after: null};
 
-	cmdData.cmd_act = `node ${cmdPath} -ua user`;
+	cmdData.cmd_act = `node ${cmdPath} -ud user`;
 	cmdData.cmd_exp = '';
 	cmdData.cmd_inp = '';
 
-	cmdData.cmd_out = `{"user":true,"output":"v","type":"","agg":true,"cache":true,"userAgent":"${CMD}/${CMD_VER}","apiVersion":"2022-11-28"}`;
+	cmdData.cmd_out = `{"user":true,"output":"v","type":"","debug":true,"cache":true,"userAgent":"gh-act/v1.0.0","apiVersion":"2022-11-28","cacheDir":"${cacheDir}","authTokenFile":".auth-token"}`;
 	cmdData.cmd_err = '';
 
 	cmdData.cmd_opt = {encoding: 'UTF-8', env: {GH_ACT_TEST: 'parse'}};
 	cmdData.cmd_ext = 0;
-	cmdData.cmd_desc = `${CMD} -ua user`;
+	cmdData.cmd_desc = `${CMD} -ud user`;
 
 	cmdData.cmd_skip = false;
 	suites.get(suiteDesc).push(cmdData);
 
-	// TEST ### - gh-act --user --agg --nocache --table --type CreateEvent user
+	// TEST ### - gh-act --user --debug --table --type CreateEvent user
 	cmdData = {run_after: null};
 
-	cmdData.cmd_act = `node ${cmdPath} --user --agg --nocache --table --type CreateEvent user`;
+	cmdData.cmd_act = `node ${cmdPath} --user --debug --table --type CreateEvent user`;
 	cmdData.cmd_exp = '';
 	cmdData.cmd_inp = '';
 
-	cmdData.cmd_out = `{"user":true,"output":"b","type":"CreateEvent","agg":true,"cache":false,"userAgent":"${CMD}/${CMD_VER}","apiVersion":"2022-11-28"}`;
+	cmdData.cmd_out = `{"user":true,"output":"b","type":"CreateEvent","debug":true,"cache":true,"userAgent":"gh-act/v1.0.0","apiVersion":"2022-11-28","cacheDir":"${cacheDir}","authTokenFile":".auth-token"}`;
 	cmdData.cmd_err = '';
 
 	cmdData.cmd_opt = {encoding: 'UTF-8', env: {GH_ACT_TEST: 'parse'}};
 	cmdData.cmd_ext = 0;
-	cmdData.cmd_desc = `${CMD} --user --agg --nocache --table --type CreateEvent user`;
+	cmdData.cmd_desc = `${CMD} --user --debug --table --type CreateEvent user`;
 
 	cmdData.cmd_skip = false;
 	suites.get(suiteDesc).push(cmdData);
@@ -514,6 +588,27 @@ Try '${CMD} --list' for more information.
 	cmdData.cmd_opt = {encoding: 'UTF-8', env: {GH_ACT_TEST: 'fetchUser'}};
 	cmdData.cmd_ext = 0;
 	cmdData.cmd_desc = `${CMD} essamatefelsherif`;
+
+	cmdData.run_before = cmdData.run_after = () => {
+		execSync(`node ${path.join(__dirname, '../lib/gh-act.js')} --nocache`);
+	}
+
+	cmdData.cmd_skip = false;
+	suites.get(suiteDesc).push(cmdData);
+
+	// TEST ### - gh-act -d essamatefelsherif
+	cmdData = {run_before: null, run_after: null};
+
+	cmdData.cmd_act = `node ${cmdPath} -d essamatefelsherif`;
+	cmdData.cmd_exp = '';
+	cmdData.cmd_inp = '';
+
+	cmdData.cmd_out = 'https://api.github.com/users/essamatefelsherif';
+	cmdData.cmd_err = '';
+
+	cmdData.cmd_opt = {encoding: 'UTF-8', env: {GH_ACT_TEST: 'fetchUser'}};
+	cmdData.cmd_ext = 0;
+	cmdData.cmd_desc = `${CMD} -d essamatefelsherif`;
 
 	cmdData.run_before = cmdData.run_after = () => {
 		execSync(`node ${path.join(__dirname, '../lib/gh-act.js')} --nocache`);
@@ -594,8 +689,6 @@ Try '${CMD} --help' for more information.
 	cmdData.cmd_skip = false;
 	suites.get(suiteDesc).push(cmdData);
 
-
-
 	// TEST SUITE #5 - Test fetching user activities
 	suiteDesc = 'Test fetching user activities';
 	suites.set(suiteDesc, []);
@@ -641,8 +734,6 @@ Try '${CMD} --help' for more information.
 
 	cmdData.cmd_skip = false;
 	suites.get(suiteDesc).push(cmdData);
-
-
 
 	// TEST ### - gh-act github // read from cache
 	cmdData = {run_before: null, run_after: null};
@@ -758,7 +849,7 @@ async function defRunner(){
 	for(let [suiteDesc, suiteTests] of suites)
 		for(let cmdObj of suiteTests)
 			if(!cmdObj.cmd_skip)
-				makeTest(cmdObj);
+				await makeTest(cmdObj);
 
 	cmdOptions.verbose && console.log();
 }
@@ -820,13 +911,13 @@ async function makeTest(obj){
 
 			passCount++;
 
-			postMsg += `Success ... ${obj.cmd_desc}`;
+			postMsg += `Success  ... ${obj.cmd_desc}`;
 			cmdOptions.verbose && console.error(postMsg);
 		}
 		catch(e){
 			failCount++;
 
-			postMsg += `Failure ... ${obj.cmd_desc}`;
+			postMsg += `Failure  ... ${obj.cmd_desc}`;
 			cmdOptions.verbose && console.error(postMsg);
 		}
 	}
