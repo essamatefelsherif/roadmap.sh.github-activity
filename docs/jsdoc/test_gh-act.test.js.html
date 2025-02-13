@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: test/gh-act.test.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: test/gh-act.test.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @module  github-activity-test
  * @desc    Testing module for the {@link module:github-activity github-activity} module.
  * @version 1.0.0
@@ -44,10 +72,13 @@ Use GitHub API to fetch GitHub user activities and display it in the terminal.
 Writing your GitHub authentication token to the file '.auth-token' located in the
 package root directory is recommended for normal operation and required for testing.`;
 
+/** @const {string} CMD_SHELL - The shell command to compare with. */
+const CMD_SHELL = '';
+
 /** @const {object} cmdOptions - Options used when running the tests. */
 const cmdOptions = {
 	node    : true,
-	verbose : true,
+	verbose : false,
 };
 
 /** @const {string} cacheDir - Cache directory. */
@@ -55,7 +86,6 @@ const cacheDir = path.join(os.tmpdir(), CMD);
 
 /* Prepare test environment */
 const cmdPath = path.join(__dirname, '..', 'lib/gh-act.js');
-const classPath = path.join(__dirname, '..', 'lib/gh-event.js');
 
 let testCount   = 1;
 let passCount   = 0;
@@ -653,6 +683,11 @@ Try '${CMD} --help' for more information.
 	cmdData.cmd_skip = false;
 	suites.get(suiteDesc).push(cmdData);
 
+
+
+
+
+
 	// TEST SUITE #5 - Test fetching user activities
 	suiteDesc = 'Test fetching user activities';
 	suites.set(suiteDesc, []);
@@ -747,135 +782,6 @@ Try '${CMD} --help' for more information.
 	cmdData.cmd_skip = false;
 	suites.get(suiteDesc).push(cmdData);
 
-	// TEST SUITE #6 - Test similarity
-	suiteDesc = 'Test similarity test';
-	suites.set(suiteDesc, []);
-
-	// TEST ### - gh-act --user github
-	cmdData = {run_before: null, run_after: null};
-
-	cmdData.cmd_act = `node ${cmdPath} --user github`;
-	cmdData.cmd_exp = `node ${cmdPath} --user github`;
-	cmdData.cmd_inp = '';
-
-	cmdData.cmd_out = '';
-	cmdData.cmd_err = '';
-
-	cmdData.cmd_opt = {encoding: 'UTF-8'};
-	cmdData.cmd_ext = 0;
-	cmdData.cmd_desc = `${CMD} --user github`;
-
-	cmdData.cmd_skip = false;
-	suites.get(suiteDesc).push(cmdData);
-
-	// TEST ### - gh-act --user essamatefelsherif
-	cmdData = {run_before: null, run_after: null};
-
-	cmdData.cmd_act = `node ${cmdPath} --user essamatefelsherif`;
-	cmdData.cmd_exp = `node ${cmdPath} --user essamatefelsherif`;
-	cmdData.cmd_inp = '';
-
-	cmdData.cmd_out = '';
-	cmdData.cmd_err = '';
-
-	cmdData.cmd_opt = {encoding: 'UTF-8'};
-	cmdData.cmd_ext = 0;
-	cmdData.cmd_desc = `${CMD} --user essamatefelsherif`;
-
-	cmdData.cmd_skip = false;
-	suites.get(suiteDesc).push(cmdData);
-
-	// TEST ### - gh-act github
-	cmdData = {run_before: null, run_after: null};
-
-	cmdData.cmd_act = `node ${cmdPath} github`;
-	cmdData.cmd_exp = `node ${cmdPath} github`;
-	cmdData.cmd_inp = '';
-
-	cmdData.cmd_out = '';
-	cmdData.cmd_err = '';
-
-	cmdData.cmd_opt = {encoding: 'UTF-8'};
-	cmdData.cmd_ext = 0;
-	cmdData.cmd_desc = `${CMD} github`;
-
-	cmdData.cmd_skip = false;
-	suites.get(suiteDesc).push(cmdData);
-
-	// TEST ### - gh-act essamatefelsherif
-	cmdData = {run_before: null, run_after: null};
-
-	cmdData.cmd_act = `node ${cmdPath} essamatefelsherif`;
-	cmdData.cmd_exp = `node ${cmdPath} essamatefelsherif`;
-	cmdData.cmd_inp = '';
-
-	cmdData.cmd_out = '';
-	cmdData.cmd_err = '';
-
-	cmdData.cmd_opt = {encoding: 'UTF-8'};
-	cmdData.cmd_ext = 0;
-	cmdData.cmd_desc = `${CMD} essamatefelsherif`;
-
-	cmdData.cmd_skip = false;
-	suites.get(suiteDesc).push(cmdData);
-
-	// TEST SUITE #7 - Test class GitHubEvent
-	suiteDesc = 'Test class GitHubEvent';
-	suites.set(suiteDesc, []);
-
-	// TEST ### - test new GitHubEvent( <PushEvent> )
-	cmdData = {run_before: null, run_after: null};
-
-	cmdData.cmd_act = `node ${classPath}`;
-	cmdData.cmd_exp = '';
-	cmdData.cmd_inp = JSON.stringify({
-		id: '45647032891',
-		type: 'PushEvent',
-		actor: {},
-		repo: {	name: 'essamatefelsherif/essamatefelsherif', },
-		payload: {size: 1, },
-		public: true,
-		created_at: '2025-01-17T02:46:38Z'
-	});
-
-	cmdData.cmd_out = 'Pushed 1 commit to repository essamatefelsherif/essamatefelsherif';
-	cmdData.cmd_err = '';
-
-	cmdData.cmd_opt = {encoding: 'UTF-8', env: {GH_ACT_TEST: 'testGitHubEvent'}};
-	cmdData.cmd_ext = 0;
-	cmdData.cmd_desc = `test new GitHubEvent( <PushEvent> )`;
-
-	cmdData.cmd_skip = false;
-	suites.get(suiteDesc).push(cmdData);
-
-	// TEST ### - test new GitHubEvent( <CreateEvent> )
-	cmdData = {run_before: null, run_after: null};
-
-	cmdData.cmd_act = `node ${classPath}`;
-	cmdData.cmd_exp = '';
-	cmdData.cmd_inp = JSON.stringify({
-		id: '45951298389',
-		type: 'CreateEvent',
-		actor: {
-			id: 52518661,
-			login: 'essamatefelsherif',
-			display_login: 'essamatefelsherif',
-		},
-		repo: { name: 'essamatefelsherif/whatwg-xhr', },
-		payload: { ref: 'v1.0.0', ref_type: 'tag'},
-		public: true,
-		created_at: '2025-01-27T14:54:46Z'
-	});
-
-	cmdData.cmd_out = 'Created tag v1.0.0 in repository essamatefelsherif/whatwg-xhr';
-	cmdData.cmd_err = '';
-
-	cmdData.cmd_opt = {encoding: 'UTF-8', env: {GH_ACT_TEST: 'testGitHubEvent'}};
-	cmdData.cmd_ext = 0;
-	cmdData.cmd_desc = `test new GitHubEvent( <CreateEvent> )`;
-
-	cmdData.cmd_skip = false;
-	suites.get(suiteDesc).push(cmdData);
 }
 
 /**
@@ -926,7 +832,7 @@ function nodeRunner(runner){
  */
 async function defRunner(){
 
-	cmdOptions.verbose && process.on('exit', () => {
+	cmdOptions.verbose &amp;&amp; process.on('exit', () => {
 		console.log();
 		console.log('▶ tests',       --testCount);
 		console.log('▶ suites',      suites.size);
@@ -938,13 +844,13 @@ async function defRunner(){
 		console.log('▶ duration_ms', Math.round(Date.now() - startTime));
 	});
 
-	cmdOptions.verbose && console.error();
+	cmdOptions.verbose &amp;&amp; console.error();
 	for(let [suiteDesc, suiteTests] of suites)
 		for(let cmdObj of suiteTests)
 			if(!cmdObj.cmd_skip)
 				await makeTest(cmdObj);
 
-	cmdOptions.verbose && console.log();
+	cmdOptions.verbose &amp;&amp; console.log();
 }
 /* node:coverage enable */
 
@@ -973,23 +879,26 @@ async function makeTest(obj){
 	let postMsg = preMsg;
 
 	preMsg += `Initiate ... ${obj.cmd_desc}`;
-	cmdOptions.verbose && console.error(preMsg);
+	cmdOptions.verbose &amp;&amp; console.error(preMsg);
 
-	obj.run_before && obj.run_before(obj);
+	obj.run_before &amp;&amp; obj.run_before(obj);
 
 	let [out_act, out_exp, prc_act, prc_exp] = await getCmdOutput(obj);
 
-	if(out_exp === null){
+	if(out_exp !== null)
+		out_exp.stderr = out_exp.stderr.replace(new RegExp(CMD_SHELL, 'g'), CMD);
+	else{
 		out_exp = {stdout: obj.cmd_out, stderr: obj.cmd_err};
 		prc_exp = {exitCode: obj.cmd_ext};
 	}
 
 	if(!cmdOptions.verbose){
+
 		assert.strictEqual(out_act.stdout, out_exp.stdout);
 		assert.strictEqual(out_act.stderr, out_exp.stderr);
 		assert.strictEqual(prc_act.exitCode, prc_exp.exitCode);
 
-		obj.run_after && obj.run_after(obj);
+		obj.run_after &amp;&amp; obj.run_after(obj);
 	}
 	else{
 		try{
@@ -997,18 +906,18 @@ async function makeTest(obj){
 			assert.strictEqual(out_act.stderr, out_exp.stderr);
 			assert.strictEqual(prc_act.exitCode, prc_exp.exitCode);
 
-			obj.run_after && obj.run_after(obj);
+			obj.run_after &amp;&amp; obj.run_after(obj);
 
 			passCount++;
 
 			postMsg += `Success  ... ${obj.cmd_desc}`;
-			cmdOptions.verbose && console.error(postMsg);
+			cmdOptions.verbose &amp;&amp; console.error(postMsg);
 		}
 		catch(e){
 			failCount++;
 
 			postMsg += `Failure  ... ${obj.cmd_desc}`;
-			cmdOptions.verbose && console.error(postMsg);
+			cmdOptions.verbose &amp;&amp; console.error(postMsg);
 		}
 	}
 }
@@ -1034,23 +943,21 @@ function getCmdOutput(cmdObj){
 	let proc_act, proc_exp;
 
 	let prom_act = new Promise((resolve, reject) => {
-
 		proc_act = exec(cmdObj.cmd_act, cmdObj.cmd_opt, (err, stdout, stderr) => {
 			resolve({stdout, stderr});
 		});
 		proc_act.stdin.write(cmdObj.cmd_inp);
-		cmdObj.cmd_signal && proc_act.kill(cmdObj.cmd_signal);
+		cmdObj.cmd_signal &amp;&amp; proc_act.kill(cmdObj.cmd_signal);
 		proc_act.stdin.end();
 	});
 
 	if(cmdObj.cmd_exp){
-
 		let prom_exp = new Promise((resolve, reject) => {
 			proc_exp = exec(cmdObj.cmd_exp, cmdObj.cmd_opt, (err, stdout, stderr) => {
 				resolve({stdout, stderr});
 			});
 			proc_exp.stdin.write(cmdObj.cmd_inp);
-			cmdObj.cmd_signal && proc_exp.kill(cmdObj.cmd_signal);
+			cmdObj.cmd_signal &amp;&amp; proc_exp.kill(cmdObj.cmd_signal);
 			proc_exp.stdin.end();
 		});
 
@@ -1059,3 +966,26 @@ function getCmdOutput(cmdObj){
 
 	return Promise.all([prom_act, null, proc_act, null]);
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-github-activity.html">github-activity</a></li><li><a href="module-github-activity-cmd.html">github-activity-cmd</a></li><li><a href="module-github-activity-test.html">github-activity-test</a></li><li><a href="module-github-event.html">github-event</a></li></ul><h3>Classes</h3><ul><li><a href="module-github-event.GitHubEvent.html">GitHubEvent</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Feb 13 2025 00:55:51 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: lib/gh-act.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: lib/gh-act.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @module  github-activity
  * @desc    A simple command line interface (CLI) utility to fetch the recent activities of a GitHub user and display it in the terminal.
  * @version 1.0.0
@@ -134,11 +162,11 @@ async function processCmd(test){
 				githubUserObj = cacheUserObj;
 			}
 
-			(test === 'fetchUser') && process.stdout.write(githubUserObj.url);
-			(test === 'fetchUser') && process.exit(0);
+			(test === 'fetchUser') &amp;&amp; process.stdout.write(githubUserObj.url);
+			(test === 'fetchUser') &amp;&amp; process.exit(0);
 
 			if(cmdOptions.user){
-				('etag' in githubUserObj) && delete githubUserObj.etag;
+				('etag' in githubUserObj) &amp;&amp; delete githubUserObj.etag;
 				console.log(githubUserObj);
 				process.exit(0);
 			}
@@ -154,11 +182,11 @@ async function processCmd(test){
 					githubUserObj = cacheUserObj;
 				}
 
-				(test === 'fetchUser') && process.stdout.write(githubUserObj.url);
-				(test === 'fetchUser') && process.exit(0);
+				(test === 'fetchUser') &amp;&amp; process.stdout.write(githubUserObj.url);
+				(test === 'fetchUser') &amp;&amp; process.exit(0);
 
 				if(cmdOptions.user){
-					('etag' in githubUserObj) && delete githubUserObj.etag;
+					('etag' in githubUserObj) &amp;&amp; delete githubUserObj.etag;
 					console.log(githubUserObj);
 					process.exit(0);
 				}
@@ -176,11 +204,11 @@ async function processCmd(test){
 			githubUserObj = await requestAPI(`https://api.github.com/orgs/${githubUser}`);
 			fs.writeFileSync(githubUserObjFile, JSON.stringify(githubUserObj, null, 0));
 
-			(test === 'fetchUser') && process.stdout.write(githubUserObj.url);
-			(test === 'fetchUser') && process.exit(0);
+			(test === 'fetchUser') &amp;&amp; process.stdout.write(githubUserObj.url);
+			(test === 'fetchUser') &amp;&amp; process.exit(0);
 
 			if(cmdOptions.user){
-				('etag' in githubUserObj) && delete githubUserObj.etag;
+				('etag' in githubUserObj) &amp;&amp; delete githubUserObj.etag;
 				console.log(githubUserObj);
 				process.exit(0);
 			}
@@ -190,11 +218,11 @@ async function processCmd(test){
 				githubUserObj = await requestAPI(`https://api.github.com/users/${githubUser}`);
 				fs.writeFileSync(githubUserObjFile, JSON.stringify(githubUserObj, null, 0));
 
-				(test === 'fetchUser') && process.stdout.write(githubUserObj.url);
-				(test === 'fetchUser') && process.exit(0);
+				(test === 'fetchUser') &amp;&amp; process.stdout.write(githubUserObj.url);
+				(test === 'fetchUser') &amp;&amp; process.exit(0);
 
 				if(cmdOptions.user){
-					('etag' in githubUserObj) && delete githubUserObj.etag;
+					('etag' in githubUserObj) &amp;&amp; delete githubUserObj.etag;
 					console.log(githubUserObj);
 					process.exit(0);
 				}
@@ -222,8 +250,8 @@ async function processCmd(test){
 				githubUserEvents = cacheUserEvents;
 			}
 
-			(test === 'fetchAct') && process.stdout.write(Object.prototype.toString.call(githubUserEvents));
-			(test === 'fetchAct') && process.exit(0);
+			(test === 'fetchAct') &amp;&amp; process.stdout.write(Object.prototype.toString.call(githubUserEvents));
+			(test === 'fetchAct') &amp;&amp; process.exit(0);
 		}
 		catch(e){
 			fs.unlinkSync(githubUserEventsFile);
@@ -237,8 +265,8 @@ async function processCmd(test){
 			githubUserEvents = await requestAPI(`${githubUserObj.events_url.replace(/\{.*\}/g, '')}`);
 			fs.writeFileSync(githubUserEventsFile, JSON.stringify(githubUserEvents, null, 0));
 
-			(test === 'fetchAct') && process.stdout.write(Object.prototype.toString.call(githubUserEvents));
-			(test === 'fetchAct') && process.exit(0);
+			(test === 'fetchAct') &amp;&amp; process.stdout.write(Object.prototype.toString.call(githubUserEvents));
+			(test === 'fetchAct') &amp;&amp; process.exit(0);
 		}
 		catch(e){
 			process.stderr.write(`${getError(7).replace('_', githubUser)}\n`);
@@ -272,9 +300,9 @@ function requestAPI(endpoint, etag){
 
 		req.setHeader('User-Agent', cmdOptions.userAgent);
 		req.setHeader('X-GitHub-Api-Version', cmdOptions.apiVersion);
-		authToken && req.setHeader('Authorization', `token ${authToken}`);
+		authToken &amp;&amp; req.setHeader('Authorization', `token ${authToken}`);
 
-		etag && req.setHeader('If-None-Match', `"${etag}"`);
+		etag &amp;&amp; req.setHeader('If-None-Match', `"${etag}"`);
 
 		req.on('response', (res) => { resolve(res) });
 		req.end();
@@ -282,17 +310,17 @@ function requestAPI(endpoint, etag){
 	})
 	.then((res) => new Promise((resolve, reject) => {
 
-		cmdOptions.debug && logRequestHeaders(res);
+		cmdOptions.debug &amp;&amp; logRequestHeaders(res);
 
 		let etag = res.headers.etag;
-		etag = etag && etag.replace(/[^a-fA-F0-9]/g, '');
+		etag = etag &amp;&amp; etag.replace(/[^a-fA-F0-9]/g, '');
 
 		let resBody = '';
 		res.on('data', (chunk) => { resBody += chunk });
 		res.on('end', () => {
 
 			res.resBody = resBody;
-			cmdOptions.debug && logResponse(res);
+			cmdOptions.debug &amp;&amp; logResponse(res);
 
 			resBody = resBody ? JSON.parse(resBody) : {};
 
@@ -304,7 +332,7 @@ function requestAPI(endpoint, etag){
 					resBody.etag = etag;
 			}
 
-			if(res.statusCode >= 200 && res.statusCode < 400)
+			if(res.statusCode >= 200 &amp;&amp; res.statusCode &lt; 400)
 				resolve(resBody);
 			else
 				reject(resBody);
@@ -332,7 +360,7 @@ function logRequestHeaders(res){
 			process.stderr.write(headers[0]);
 		}
 		else{
-			headers.forEach((e) => e && console.error(`> ${e}`));
+			headers.forEach((e) => e &amp;&amp; console.error(`> ${e}`));
 			console.error('> ');
 		}
 	}
@@ -351,7 +379,7 @@ function logRequestHeaders(res){
 		}
 	}
 
-	!testMode && console.error();
+	!testMode &amp;&amp; console.error();
 }
 
 /**
@@ -368,14 +396,14 @@ function logRequestHeaders(res){
  */
 function logResponse(res){
 
-	!testMode && console.error(`< HTTP/${res.httpVersion} ${res.statusCode} ${res.statusMessage}`);
+	!testMode &amp;&amp; console.error(`&lt; HTTP/${res.httpVersion} ${res.statusCode} ${res.statusMessage}`);
 
-	for(let i = 0; i < res.rawHeaders.length; i += 2)
-		!testMode && console.error(`< ${res.rawHeaders[i]}: ${res.rawHeaders[i+1]}`)
+	for(let i = 0; i &lt; res.rawHeaders.length; i += 2)
+		!testMode &amp;&amp; console.error(`&lt; ${res.rawHeaders[i]}: ${res.rawHeaders[i+1]}`)
 
-	!testMode && console.error('< ');
-	!testMode && console.error(res.resBody);
-	!testMode && console.error();
+	!testMode &amp;&amp; console.error('&lt; ');
+	!testMode &amp;&amp; console.error(res.resBody);
+	!testMode &amp;&amp; console.error();
 }
 
 /**
@@ -431,3 +459,26 @@ function output(githubUserEvents){
 		}
 	}
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-github-activity.html">github-activity</a></li><li><a href="module-github-activity-cmd.html">github-activity-cmd</a></li><li><a href="module-github-activity-test.html">github-activity-test</a></li><li><a href="module-github-event.html">github-event</a></li></ul><h3>Classes</h3><ul><li><a href="module-github-event.GitHubEvent.html">GitHubEvent</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Feb 13 2025 00:55:51 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

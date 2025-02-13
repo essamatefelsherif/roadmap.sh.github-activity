@@ -1,7 +1,7 @@
 {
 	"name"   : "@essamonline/github-activity",
 	"version": "1.0.0",
-	"description": "A simple command line interface (CLI) to fetch the recent activities of a GitHub user and display it in the terminal.",
+	"description": "A simple command line interface (CLI) utility to fetch and display the recent activities of a GitHub user.",
 	"main"   : "lib/gh-act.js",
 	"type"   : "module",
 	"scripts": {
@@ -9,18 +9,16 @@
 		"help"        : "node lib/gh-act.js --help",
 		"test"        : "node test/gh-act.test.js",
 		"testCover"   : "node --experimental-test-coverage --test test/gh-act.test.js",
-		"testReport"  : "node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=docs/coverage/node/lcov.info",
-		"testVerb"    : "node test/gh-act.test.js",
+		"devCover"    : "node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=docs/coverage/node/lcov.info --test test/gh-act.test.js",
 		"devGenhtml"  : "genhtml -o docs/coverage/node/html --config-file .lcovrc docs/coverage/node/lcov.info",
 		"devDoc"      : "rm -fr docs/jsdoc/* && jsdoc lib/*.js test/*.js -d docs/jsdoc",
-		"devUpdate"   : "npm run testReport && npm run devGenhtml && npm run devDoc",
 		"devCoveralls": "coveralls < docs/coverage/node/lcov.info"
 	},
 	"bin" : {
 		"gh-act": "bin/gh-act",
 		"gh-act.bat": "bin/gh-act.bat"
 	},
-	"keywords": ["github"],
+	"keywords": ["github", "github-api", "node.js", "cli", "roadmap.sh"],
 	"author": {
 		"name" : "Essam A. El-Sherif",
 		"email": "esm.elsh@gmail.com",
