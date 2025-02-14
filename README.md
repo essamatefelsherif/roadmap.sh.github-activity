@@ -33,10 +33,8 @@ Writing your GitHub authentication token to the file '.auth-token' located in th
 package root directory is recommended for normal operation and required for testing.
 ```
 
-## Testing
 
-
-## Documentation
+## Testing and Documentation
 
 Source code documentation along with a test coverage report are both included under [Documentation](https://essamatefelsherif.github.io/roadmap.sh.github-activity/ "Documentation").
 

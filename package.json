@@ -11,7 +11,7 @@
 		"testCover"   : "node --experimental-test-coverage --test test/gh-act.test.js",
 		"devCover"    : "node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=docs/coverage/node/lcov.info --test test/gh-act.test.js",
 		"devGenhtml"  : "genhtml -o docs/coverage/node/html --config-file .lcovrc docs/coverage/node/lcov.info",
-		"devDoc"      : "rm -fr docs/jsdoc/* && jsdoc lib/*.js test/*.js -d docs/jsdoc",
+		"devDoc"      : "rm -frv docs/jsdoc/* && jsdoc lib/*.js test/*.js -d docs/jsdoc",
 		"devCoveralls": "coveralls < docs/coverage/node/lcov.info"
 	},
 	"bin" : {

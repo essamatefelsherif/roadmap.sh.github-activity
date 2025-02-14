@@ -75,8 +75,9 @@ const suites = new Map();
  * async function makeTest()
  * function getCmdOutput()
  *
- * @func Main
- * @desc The application entry point function.
+ * @name Main
+ * @func
+ * @desc The test module entry point function.
  */
 (() => {
 
