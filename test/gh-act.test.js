@@ -1,6 +1,6 @@
 /**
- * @module  github-activity-test
- * @desc    Testing module for the {@link module:github-activity github-activity} module.
+ * @module  github-user-activity-test
+ * @desc    Testing module for the {@link module:github-user-activity github-user-activity} module.
  * @version 1.0.0
  * @author  Essam A. El-Sherif
  */
