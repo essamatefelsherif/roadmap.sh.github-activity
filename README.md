@@ -2,6 +2,8 @@
 
 A simple command line interface (CLI) utility to fetch and display the recent activities of a GitHub user using [GitHub API](https://docs.github.com/en/rest).
 
+[![Coverage Status](https://coveralls.io/repos/github/essamatefelsherif/roadmap.sh.github-activity/badge.svg?branch=main)](https://coveralls.io/github/essamatefelsherif/roadmap.sh.github-activity?branch=main)
+
 ## Installation
 
 ```sh
