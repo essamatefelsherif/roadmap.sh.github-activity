@@ -2,13 +2,13 @@
 
 A simple command line interface (CLI) utility to fetch and display the recent activities of a GitHub user using [GitHub API](https://docs.github.com/en/rest).
 
-[![Static Badge]](https://img.shields.io/badge/roadmap.sh-github_user_activity-blue?logo=roadmap.sh&link=https%3A%2F%2Froadmap.sh%2Fprojects%2Fgithub-user-activity)
+[![Static Badge](https://img.shields.io/badge/roadmap.sh-github_user_activity-blue?logo=roadmap.sh)](https://roadmap.sh/projects/github-user-activity)
 [![Coverage Status](https://coveralls.io/repos/github/essamatefelsherif/roadmap.sh.github-activity/badge.svg?branch=main)](https://coveralls.io/github/essamatefelsherif/roadmap.sh.github-activity?branch=main)
 
 ## Installation
 
 ```sh
-npm install [-g] @essamonline/github-activity
+npm install [-g] @essamonline/github-user-activity
 ```
 
 ## Usage
