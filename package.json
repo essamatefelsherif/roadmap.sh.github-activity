@@ -24,6 +24,11 @@
 		"email": "esm.elsh@gmail.com",
 		"url"  : "https://essamatefelsherif.github.io/whoami"
 	},
+	"homepage": "https://github.com/essamatefelsherif/roadmap.sh.github-activity#readme",
+	"repository": {
+		"type": "git",
+		"url" : "git+https://github.com/essamatefelsherif/roadmap.sh.github-activity.git"
+	},
 	"license": "MIT",
 	"devDependencies": {
 		"coveralls-next": "^4.2.1",
