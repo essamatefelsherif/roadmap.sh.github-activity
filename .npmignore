@@ -1,5 +1,7 @@
 # other folders
 docs
 tmp
+PROJECT.md
 .lcovrc
 .coveralls.yml
+.auth-token
